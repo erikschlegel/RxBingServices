@@ -4,7 +4,6 @@
 Object.defineProperty(exports, '__esModule', {
 		value: true
 });
-var _arguments = arguments;
 exports.validateInput = validateInput;
 
 var _whatsAroundMe = require('./whats-around-me');
@@ -30,11 +29,12 @@ function validateInput(supportedInputs, requestedInputs) {
 }
 
 String.prototype.format = function () {
-		var formatted = undefined;
-		for (var arg in _arguments) {
-				formatted = formatted.replace("{" + arg + "}", _arguments[arg]);
+		var content = this;
+		for (var i = 0; i < arguments.length; i++) {
+				var replacement = '{' + i + '}';
+				content = content.replace(replacement, arguments[i]);
 		}
-		return formatted;
+		return content;
 };
 
 },{"./whats-around-me":2}],2:[function(require,module,exports){
@@ -43,7 +43,7 @@ String.prototype.format = function () {
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-exports['default'] = whatsAroundMe;
+exports.whatsAroundMe = whatsAroundMe;
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
@@ -121,7 +121,7 @@ var validateRequest = function validateRequest(input) {
 
 function whatsAroundMe(input, exits) {
     var errors = (0, _index.validateInput)(input);
-    if (errors.size() > 0) return exits.error({ description: 'input validation failed', errorSet: errors });
+    if (errors.size > 0) return exits.error({ description: 'input validation failed', errorSet: errors });
 
     if (!validateRequest(input)) return exits.error({ description: 'request failed validation check' });
 
@@ -135,20 +135,18 @@ function whatsAroundMe(input, exits) {
 
     var BingURL = "{0}/{1}/{2}?key={3}&{4}&{5}&{6}&{7}&{8}&$format=json;".format(serviceUrl, input.datasourceName || bingDSDefault, input.poiName || bingPOIDefault, input.apiKey, spatialFilter, select, top, filter, order);
 
-    RxDOM.jsonpRequest(BingURL).subscribe(function (response) {
+    _rx2['default'].DOM.jsonpRequest(BingURL).subscribe(function (response) {
         var bingResponse = {};
 
         response.forEach(function (item) {
             console.log(item);
         });
 
-        return exits.success();
+        return exits.success(response);
     }, function (error) {
         // Log the error
     });
 }
-
-module.exports = exports['default'];
 
 },{"./index":1,"extend":4,"rx":7,"rx-dom":6}],3:[function(require,module,exports){
 // shim for using process in browser

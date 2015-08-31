@@ -29,7 +29,8 @@
   "dependencies": {
     "extend": "^3.0.0",
     "rx": "*",
-    "rx-dom": "*"
+    "rx-dom": "*",
+    "express": "*"
   },
   "browserify": {
     "transform": [
@@ -37,6 +38,7 @@
     ]
   },
   "scripts": {
-    "build": "grunt build"
+    "build": "grunt build",
+    "server-start": "node server.js"
   }
 }
