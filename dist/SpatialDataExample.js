@@ -9,6 +9,10 @@ var _rx = require('rx');
 
 var _rx2 = _interopRequireDefault(_rx);
 
+var _extend = require('extend');
+
+var _extend2 = _interopRequireDefault(_extend);
+
 var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
@@ -26,14 +30,14 @@ BingServices.whatsAroundMe({
   success: function success(result) {
     _rx2['default'].Observable.from(result).subscribe(function (location) {
       var entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
-      console.log(JSON.stringify(location));
+      console.log(JSON.stringify((0, _extend2['default'])(true, {}, location, entityType)));
     }, function (error) {
       console.log("There was an error: " + error);
     });
   }
 });
 
-},{"../lib/index":3,"rx":9}],2:[function(require,module,exports){
+},{"../lib/index":3,"extend":6,"rx":9}],2:[function(require,module,exports){
 module.exports={
   "2084": { "EntityType": "Winery", "icon": "glass" },
   "3578": { "EntityType": "ATM", "icon": "money" },
@@ -94,7 +98,7 @@ module.exports={
   "9525": { "EntityType": "Government Office", "icon": "" },
   "9530": { "EntityType": "Post Office", "icon": "" },
   "9535": { "EntityType": "Convenience Store", "icon": "" },
-  "9537": { "EntityType": "Clothing Store", "icon": "" },
+  "9537": { "EntityType": "Clothing Store", "icon": "black-tie" },
   "9545": { "EntityType": "Department Store", "icon": "" },
   "9560": { "EntityType": "Home Specialty Store", "icon": "" },
   "9565": { "EntityType": "Pharmacy", "icon": "" },
@@ -112,13 +116,13 @@ module.exports={
   "9719": { "EntityType": "Truck Dealership", "icon": "" },
   "9986": { "EntityType": "Home Improvement & Hardware Store", "icon": "" },
   "9987": { "EntityType": "Consumer Electronics Store", "icon": "" },
-  "9988": { "EntityType": "Office Supply & Services Store", "icon": "" },
+  "9988": { "EntityType": "Office Supply & Services Store", "icon": "edit" },
   "9991": { "EntityType": "Industrial Zone", "icon": "" },
   "9992": { "EntityType": "Place of Worship", "icon": "" },
   "9993": { "EntityType": "Embassy", "icon": "" },
   "9994": { "EntityType": "County Council", "icon": "" },
   "9995": { "EntityType": "Bookstore", "icon": "" },
-  "9996": { "EntityType": "Coffee Shop", "icon": "" },
+  "9996": { "EntityType": "Coffee Shop", "icon": "coffee" },
   "9998": { "EntityType": "Hamlet", "icon": "" },
   "9999": { "EntityType": "Border Crossing"} 
 }
