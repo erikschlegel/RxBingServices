@@ -41,3 +41,23 @@ BingServices.whatsAroundMe({
   },
 });
 ```
+
+All services in this package will invoke the client success or error callback depending on the status of the Bing call and response. In this example we're converting the response into an observable sequence, and merging the location details with the metadata details for each returned location. 
+
+## API Reference
+* [BingServices](#SD)
+  * [.whatsAroundMe](#BingServices.whatsAroundMe)
+
+<a name="SD"></a>
+### BingServices
+All services are available within the BingServices module
+
+<a name="BingServices.whatsAroundMe"></a>
+#### BingServices.whatsAroundMe(options)
+Bing Spatial Data Service: collects all entities around a specified geo location. This calls bing spatial data service as an observable, and uses Rx to subscribe to the response of nearby entities
+
+**Returns**: A promise with either the success method called, or the error method invoked. 
+
+| Param | Type | Example | Required | Description
+| --- | --- | --- | --- | --- |
+| apiKey | <code>string</code> | 232edfdnfddf4450 | Yes | Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx
