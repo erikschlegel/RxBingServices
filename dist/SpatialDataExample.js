@@ -1,6 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _rx = require('rx');
+
+var _rx2 = _interopRequireDefault(_rx);
+
 var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
@@ -16,11 +24,105 @@ BingServices.whatsAroundMe({
   },
   // OK.
   success: function success(result) {
-    console.log('Got:\n', result);
+    _rx2['default'].Observable.from(result).subscribe(function (location) {
+      var entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
+      console.log(JSON.stringify(location));
+    }, function (error) {
+      console.log("There was an error: " + error);
+    });
   }
 });
 
-},{"../lib/index":2}],2:[function(require,module,exports){
+},{"../lib/index":3,"rx":9}],2:[function(require,module,exports){
+module.exports={
+  "2084": { "EntityType": "Winery", "icon": "glass" },
+  "3578": { "EntityType": "ATM", "icon": "money" },
+  "4013": { "EntityType": "Train Station", "icon": "train" },
+  "4100": { "EntityType": "Commuter Rail Station", "icon": "train" },
+  "4170": { "EntityType": "Bus Station", "icon": "bus" },
+  "4444": { "EntityType": "Named Place", "icon": "" },
+  "4482": { "EntityType": "Ferry Terminal", "icon": "ship" },
+  "4493": { "EntityType": "Marina", "icon": "ship" },
+  "4580": { "EntityType": "Public Sports Airport", "icon": "" },
+  "4581": { "EntityType": "Airport", "icon": "" },
+  "5000": { "EntityType": "Business Facility", "icon": "" },
+  "5400": { "EntityType": "Grocery Store", "icon": "cart-plus" },
+  "5511": { "EntityType": "Auto Dealerships", "icon": "car" },
+  "5512": { "EntityType": "Auto Dealership-Used Cars", "icon": "car" },
+  "5540": { "EntityType": "Petrol/Gasoline Station", "icon": "car" },
+  "5571": { "EntityType": "Motorcycle Dealership", "icon": "motorcycle" },
+  "5800": { "EntityType": "Restaurant", "icon": "cutlery" },
+  "5813": { "EntityType": "Nightlife", "icon": "beer" },
+  "5999": { "EntityType": "Historical Monument", "icon": "" },
+  "6000": { "EntityType": "Bank", "icon": "" },
+  "6512": { "EntityType": "Shopping", "icon": "" },
+  "7011": { "EntityType": "Hotel", "icon": "hotel" },
+  "7012": { "EntityType": "Ski Resort", "icon": "" },
+  "7013": { "EntityType": "Other Accommodation", "icon": "" },
+  "7014": { "EntityType": "Ski Lift", "icon": "" },
+  "7389": { "EntityType": "Tourist Information", "icon": "" },
+  "7510": { "EntityType": "Rental Car Agency", "icon": "" },
+  "7520": { "EntityType": "Parking Lot", "icon": "" },
+  "7521": { "EntityType": "Parking Garage/House", "icon": "" },
+  "7522": { "EntityType": "Park & Ride", "icon": "" },
+  "7538": { "EntityType": "Auto Service & Maintenance", "icon": "" },
+  "7832": { "EntityType": "Cinema", "icon": "" },
+  "7897": { "EntityType": "Rest Area", "icon": "" },
+  "7929": { "EntityType": "Performing Arts", "icon": "" },
+  "7933": { "EntityType": "Bowling Centre", "icon": "" },
+  "7940": { "EntityType": "Sports Complex", "icon": "soccer-ball-o" },
+  "7947": { "EntityType": "Park/Recreation Area", "icon": "" },
+  "7985": { "EntityType": "Casino", "icon": "" },
+  "7990": { "EntityType": "Convention/Exhibition Centre", "icon": "" },
+  "7992": { "EntityType": "Golf Course", "icon": "" },
+  "7994": { "EntityType": "Civic/Community Centre", "icon": "" },
+  "7996": { "EntityType": "Amusement Park", "icon": "" },
+  "7997": { "EntityType": "Sports Centre", "icon": "" },
+  "7998": { "EntityType": "Ice Skating Rink", "icon": "" },
+  "7999": { "EntityType": "Tourist Attraction", "icon": "" },
+  "8060": { "EntityType": "Hospital", "icon": "" },
+  "8200": { "EntityType": "Higher Education", "icon": "" },
+  "8211": { "EntityType": "School", "icon": "" },
+  "8231": { "EntityType": "Library", "icon": "" },
+  "8410": { "EntityType": "Museum", "icon": "" },
+  "8699": { "EntityType": "Automobile Club", "icon": "" },
+  "9121": { "EntityType": "City Hall", "icon": "" },
+  "9211": { "EntityType": "Court House", "icon": "" },
+  "9221": { "EntityType": "Police Station", "icon": "" },
+  "9517": { "EntityType": "Campground", "icon": "" },
+  "9522": { "EntityType": "Truck Stop/Plaza", "icon": "" },
+  "9525": { "EntityType": "Government Office", "icon": "" },
+  "9530": { "EntityType": "Post Office", "icon": "" },
+  "9535": { "EntityType": "Convenience Store", "icon": "" },
+  "9537": { "EntityType": "Clothing Store", "icon": "" },
+  "9545": { "EntityType": "Department Store", "icon": "" },
+  "9560": { "EntityType": "Home Specialty Store", "icon": "" },
+  "9565": { "EntityType": "Pharmacy", "icon": "" },
+  "9567": { "EntityType": "Specialty Store", "icon": "" },
+  "9568": { "EntityType": "Sporting Goods Store", "icon": "" },
+  "9583": { "EntityType": "Medical Service", "icon": "" },
+  "9590": { "EntityType": "Residential Area/Building", "icon": "" },
+  "9591": { "EntityType": "Cemetery", "icon": "" },
+  "9592": { "EntityType": "Highway Exit", "icon": "" },
+  "9593": { "EntityType": "Transportation Service", "icon": "" },
+  "9710": { "EntityType": "Weigh Station", "icon": "" },
+  "9714": { "EntityType": "Cargo Centre", "icon": "" },
+  "9715": { "EntityType": "Military Base", "icon": "" },
+  "9718": { "EntityType": "Animal Park", "icon": "" },
+  "9719": { "EntityType": "Truck Dealership", "icon": "" },
+  "9986": { "EntityType": "Home Improvement & Hardware Store", "icon": "" },
+  "9987": { "EntityType": "Consumer Electronics Store", "icon": "" },
+  "9988": { "EntityType": "Office Supply & Services Store", "icon": "" },
+  "9991": { "EntityType": "Industrial Zone", "icon": "" },
+  "9992": { "EntityType": "Place of Worship", "icon": "" },
+  "9993": { "EntityType": "Embassy", "icon": "" },
+  "9994": { "EntityType": "County Council", "icon": "" },
+  "9995": { "EntityType": "Bookstore", "icon": "" },
+  "9996": { "EntityType": "Coffee Shop", "icon": "" },
+  "9998": { "EntityType": "Hamlet", "icon": "" },
+  "9999": { "EntityType": "Border Crossing"} 
+}
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28,14 +130,21 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.validateInput = validateInput;
 
+function _interopExportWildcard(obj, defaults) {
+		var newObj = defaults({}, obj);delete newObj['default'];return newObj;
+}
+
+function _defaults(obj, defaults) {
+		var keys = Object.getOwnPropertyNames(defaults);for (var i = 0; i < keys.length; i++) {
+				var key = keys[i];var value = Object.getOwnPropertyDescriptor(defaults, key);if (value && value.configurable && obj[key] === undefined) {
+						Object.defineProperty(obj, key, value);
+				}
+		}return obj;
+}
+
 var _whatsAroundMe = require('./whats-around-me');
 
-Object.defineProperty(exports, 'whatsAroundMe', {
-		enumerable: true,
-		get: function get() {
-				return _whatsAroundMe.whatsAroundMe;
-		}
-});
+_defaults(exports, _interopExportWildcard(_whatsAroundMe, _defaults));
 
 function validateInput(supportedInputs, requestedInputs) {
 		var errorSet = new Set();
@@ -59,13 +168,14 @@ String.prototype.format = function () {
 		return content;
 };
 
-},{"./whats-around-me":3}],3:[function(require,module,exports){
+},{"./whats-around-me":4}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
 exports.whatsAroundMe = whatsAroundMe;
+exports.getEntityTypeDetails = getEntityTypeDetails;
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
@@ -84,6 +194,10 @@ var _extend = require('extend');
 var _extend2 = _interopRequireDefault(_extend);
 
 var _index = require('./index');
+
+var _dataEntityTypesJson = require('./data/entityTypes.json');
+
+var _dataEntityTypesJson2 = _interopRequireDefault(_dataEntityTypesJson);
 
 var serviceUrl = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150';
 var bingDSDefault = 'NAVTEQNA';
@@ -168,7 +282,17 @@ function whatsAroundMe(input, exits) {
     });
 }
 
-},{"./index":2,"extend":5,"rx":8,"rx-dom":7}],4:[function(require,module,exports){
+;
+
+function getEntityTypeDetails(entityTypeId) {
+    var entityDetails = _dataEntityTypesJson2['default'][entityTypeId] || {};
+
+    return entityDetails;
+}
+
+;
+
+},{"./data/entityTypes.json":2,"./index":3,"extend":6,"rx":9,"rx-dom":8}],5:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -260,7 +384,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var hasOwn = Object.prototype.hasOwnProperty;
@@ -348,7 +472,7 @@ module.exports = function extend() {
 };
 
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 (function (global){
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
@@ -1366,11 +1490,11 @@ function normalizeAjaxLoadEvent(e, xhr, settings) {
   return Rx;
 }));
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"rx":8}],7:[function(require,module,exports){
+},{"rx":9}],8:[function(require,module,exports){
 var Rx = require('rx');
 require('./dist/rx.dom');
 module.exports = Rx;
-},{"./dist/rx.dom":6,"rx":8}],8:[function(require,module,exports){
+},{"./dist/rx.dom":7,"rx":9}],9:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
@@ -11775,4 +11899,4 @@ Rx.Observable.prototype.flatMapWithMaxConcurrent = function(limit, selector, res
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":4}]},{},[1]);
+},{"_process":5}]},{},[1]);

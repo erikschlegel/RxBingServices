@@ -1,3 +1,5 @@
+import Rx from 'rx';
+import extend from 'extend';
 var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
@@ -13,6 +15,13 @@ BingServices.whatsAroundMe({
   },
   // OK.
   success: function (result){
-    console.log('Got:\n', result);
+    Rx.Observable.from(result)
+                 .subscribe((location) => {
+                     var entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
+                     console.log(JSON.stringify(extend(true, {}, location, entityType)));
+                 },
+                 (error) => {
+                     console.log("There was an error: " + error);
+                 });
   },
 });
