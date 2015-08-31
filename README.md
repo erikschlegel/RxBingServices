@@ -64,3 +64,8 @@ Bing Spatial Data Service: collects all entities around a specified geo location
 | location | <code>string</code> | 34.23245532,-40.47464 | Yes | The users latitude and longitude|None
 | select | <code>string</code> | Latitude,Longitude,IsWiFiHotSpot,DisplayName | No | The selection fields from the bing spatial data source|All/*
 | datasourceName | <code>string</code> | NAVTEQNA | No | The selection fields from the bing spatial data source|NAVTEQNA
+| poiName | <code>string</code> | NavteqPOIs | No | The point of interest name|NavteqPOIs
+| filter | <code>string</code> | StartsWith(PrimaryCity, Clear) eq true | No | The Odata filter for the bing spatial data query|None
+| orberByClause | <code>string</code> | IsWheelchairAccessible | No | The Odata order by clause for the bing spatial data query|None
+| top | <code>int</code> | 10 | No | Sets the max returned allowable results|20
+| radius | <code>int</code> | 1 | Yes | Spatial data filter radius(in kilometers)|None
