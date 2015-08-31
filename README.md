@@ -10,7 +10,7 @@ To install this package, run `npm install RxBingServices`
 [API Key Request](https://msdn.microsoft.com/en-us/library/ff428642.aspx).
 
 ```
-var BingServices = require('../lib/index');
+var BingServices = require('RxBingServices');
 import Rx from 'rx';
 ```
 
