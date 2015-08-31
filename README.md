@@ -58,6 +58,9 @@ Bing Spatial Data Service: collects all entities around a specified geo location
 
 **Returns**: A promise with either the success method called, or the error method invoked. 
 
-| Param | Type | Example | Required | Description
-| --- | --- | --- | --- | --- |
-| apiKey | <code>string</code> | 232edfdnfddf4450 | Yes | Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx
+| Param | Type | Example | Required | Description | Default
+| --- | --- | --- | --- | --- | --- |
+| apiKey | <code>string</code> | 232edfdnfddf4450 | Yes | Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx|None
+| location | <code>string</code> | 34.23245532,-40.47464 | Yes | The users latitude and longitude|None
+| select | <code>string</code> | Latitude,Longitude,IsWiFiHotSpot,DisplayName | No | The selection fields from the bing spatial data source|All/*
+| datasourceName | <code>string</code> | NAVTEQNA | No | The selection fields from the bing spatial data source|NAVTEQNA
