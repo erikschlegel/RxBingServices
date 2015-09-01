@@ -18,31 +18,30 @@ Check out the places around you by calling whats around me, including your curre
 
 ```
 // Fetch the west village surroundings
-BingServices.whatsAroundMe({
-  apiKey: 'Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx',
+var rsp = BingServices.whatsAroundMe({
+  apiKey: 'place your API key here',
   location: '40.735803,-74.001374',
   top: 20,
   radius: 1
 } , {
   // An unexpected error occurred.
   error: function (e){
-    console.log('Received an error:\n', e);
-  },
-  // OK.
-  success: function (result){
-    Rx.Observable.from(result)
-                 .subscribe((location) => {
-                     let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
-                     console.log(JSON.stringify(extend(true, {}, location, entityType)));
-                 },
-                 (error) => {
-                     console.log("There was an error: " + error);
-                 });
-  },
-});
+    console.log('Received a validation error:\n', e);
+  }
+}).subscribe((rspSequence) => {
+           Rx.Observable.from(BingServices.fromRspToSpatialEntities(rspSequence))
+                        .subscribe((location) => {
+                            let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
+                            console.log(JSON.stringify(extend(true, {}, location, entityType)));
+                        });
+        },
+        (error) => {
+            console.log("There was an error: " + error);
+        }
+);
 ```
 
-All services in this package will invoke the client success or error callback depending on the status of the Bing call and response. In this example we're converting the response into an observable sequence, and merging the location details with the metadata details for each returned location. 
+All services in this package will return a Rx observable, which is available for subscription. The subscribe will stream the response in an async fashion. If the request fails its validation request, then the clients error callback will be invoked with the details encapsulated in the error parameter. the client success or error callback depending on the status of the Bing call and response. In this example we're converting the response into an observable sequence, and merging the location details with the metadata details for each returned location. 
 
 ## API Reference
 * [BingServices](#SD)
@@ -53,10 +52,10 @@ All services in this package will invoke the client success or error callback de
 All services are available within the BingServices module
 
 <a name="BingServices.whatsAroundMe"></a>
-#### BingServices.whatsAroundMe(options)
+#### BingServices.whatsAroundMe(options, errorCallback) => <code>Observable</code>
 Bing Spatial Data Service: collects all entities around a specified geo location. This calls bing spatial data service as an observable, and uses Rx to subscribe to the response of nearby entities
 
-**Returns**: A promise with either the success method called, or the error method invoked. 
+**Returns**: An observable sequence. The table below describes the response thats streamed back from the subscription. 
 
 | Param | Type | Example | Required | Description | Default
 | --- | --- | --- | --- | --- | --- |
