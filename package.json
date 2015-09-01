@@ -1,5 +1,5 @@
 {
-  "name": "RxBingServices",
+  "name": "rx-bing-services",
   "description": "Reactive extensions for Bing location and mapping services",
   "version": "0.0.1",
   "license": "MIT",
