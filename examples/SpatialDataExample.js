@@ -3,25 +3,24 @@ import extend from 'extend';
 var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
-BingServices.whatsAroundMe({
-  apiKey: 'Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx',
+var rsp = BingServices.whatsAroundMe({
+  apiKey: 'Aji7ARlyYm81OWlGyWxr8DCdPFhUtbYyAYq1LcAKgFoYh1Q6Dx5Sqvybk8qVTtir',
   location: '40.735803,-74.001374',
   top: 20,
   radius: 1
 } , {
   // An unexpected error occurred.
   error: function (e){
-    console.log('Received an error:\n', e);
-  },
-  // OK.
-  success: function (result){
-    Rx.Observable.from(result)
-                 .subscribe((location) => {
-                     let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
-                     console.log(JSON.stringify(extend(true, {}, location, entityType)));
-                 },
-                 (error) => {
-                     console.log("There was an error: " + error);
-                 });
-  },
-});
+    console.log('Received a validation error:\n', e);
+  }
+}).subscribe((rspSequence) => {
+           Rx.Observable.from(BingServices.fromRspToSpatialEntities(rspSequence))
+                        .subscribe((location) => {
+                            let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
+                            console.log(JSON.stringify(extend(true, {}, location, entityType)));
+                        });
+        },
+        (error) => {
+            console.log("There was an error: " + error);
+        }
+);

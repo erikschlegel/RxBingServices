@@ -16,7 +16,7 @@ var _extend2 = _interopRequireDefault(_extend);
 var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
-BingServices.whatsAroundMe({
+var rsp = BingServices.whatsAroundMe({
   apiKey: 'Aji7ARlyYm81OWlGyWxr8DCdPFhUtbYyAYq1LcAKgFoYh1Q6Dx5Sqvybk8qVTtir',
   location: '40.735803,-74.001374',
   top: 20,
@@ -24,17 +24,15 @@ BingServices.whatsAroundMe({
 }, {
   // An unexpected error occurred.
   error: function error(e) {
-    console.log('Received an error:\n', e);
-  },
-  // OK.
-  success: function success(result) {
-    _rx2['default'].Observable.from(result).subscribe(function (location) {
-      var entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
-      console.log(JSON.stringify((0, _extend2['default'])(true, {}, location, entityType)));
-    }, function (error) {
-      console.log("There was an error: " + error);
-    });
+    console.log('Received a validation error:\n', e);
   }
+}).subscribe(function (rspSequence) {
+  _rx2['default'].Observable.from(BingServices.fromRspToSpatialEntities(rspSequence)).subscribe(function (location) {
+    var entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
+    console.log(JSON.stringify((0, _extend2['default'])(true, {}, location, entityType)));
+  });
+}, function (error) {
+  console.log("There was an error: " + error);
 });
 
 },{"../lib/index":3,"extend":6,"rx":9}],2:[function(require,module,exports){
@@ -180,6 +178,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.whatsAroundMe = whatsAroundMe;
 exports.getEntityTypeDetails = getEntityTypeDetails;
+exports.fromRspToSpatialEntities = fromRspToSpatialEntities;
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
@@ -275,15 +274,7 @@ function whatsAroundMe(input, exits) {
 
     var BingURL = "{0}/{1}/{2}?key={3}&{4}&{5}&{6}{7}{8}&$format=json&jsonp=JSONPCallback".format(serviceUrl, input.datasourceName || bingDSDefault, input.poiName || bingPOIDefault, input.apiKey, spatialFilter, select, top, filter, order);
 
-    _rx2['default'].DOM.jsonpRequest({ url: BingURL, jsonp: 'JSONPCallback' }).subscribe(function (bingRsp) {
-        var bingResponse = bingRsp && bingRsp.response && bingRsp.response.d && bingRsp.response.d.results ? bingRsp.response.d.results : [];
-
-        return exits.success(bingResponse);
-    }, function (error) {
-        console.log('Encountered an error: ' + error);
-
-        return exits.error(error);
-    });
+    return _rx2['default'].DOM.jsonpRequest({ url: BingURL, jsonp: 'JSONPCallback' });
 }
 
 ;
@@ -295,6 +286,10 @@ function getEntityTypeDetails(entityTypeId) {
 }
 
 ;
+
+function fromRspToSpatialEntities(bingRsp) {
+    return bingRsp && bingRsp.response && bingRsp.response.d && bingRsp.response.d.results ? bingRsp.response.d.results : [];
+}
 
 },{"./data/entityTypes.json":2,"./index":3,"extend":6,"rx":9,"rx-dom":8}],5:[function(require,module,exports){
 // shim for using process in browser
