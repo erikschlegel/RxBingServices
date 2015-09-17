@@ -4,7 +4,7 @@ var BingServices = require('../lib/index');
 
 // Fetch the west village surroundings
 var rsp = BingServices.whatsAroundMe({
-  apiKey: 'Place your API Key here',
+  apiKey: process.env.BING_API_KEY,
   location: '40.735803,-74.001374',
   top: 20,
   radius: 1

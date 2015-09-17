@@ -1,6 +1,8 @@
 var pkg = require('./package.json');
 
 module.exports = function (grunt) {
+  var exampleFile = grunt.option('src-file');
+  
   grunt.initConfig({
         browserify: {
             lib: {
@@ -13,8 +15,8 @@ module.exports = function (grunt) {
                 }
             },
             example: {
-                src: './examples/SpatialDataExample.js',
-                dest: './dist/SpatialDataExample.js',
+                src: './examples/' + exampleFile,
+                dest: './dist/' + exampleFile,
                 options: {
                     debug: true,
                     extensions: ['.js'],
