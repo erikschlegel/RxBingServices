@@ -1,4 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (process){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -22,8 +23,7 @@ var whereAmIObs = _rx2['default'].DOM.geolocation.getCurrentPosition();
 var myLocationProcessor = {
   'bingLocationService': function bingLocationService(latitude, longitude) {
     var rsp = BingServices.bingLocation({
-      //        apiKey: process.env.BING_API_KEY,
-      apiKey: 'Aji7ARlyYm81OWlGyWxr8DCdPFhUtbYyAYq1LcAKgFoYh1Q6Dx5Sqvybk8qVTtir',
+      apiKey: process.env.BING_API_KEY,
       location: "{0},{1}".format(latitude, longitude)
     }, {
       // An unexpected error occurred.
@@ -31,11 +31,9 @@ var myLocationProcessor = {
         console.log('Received a validation error:\n', e);
       }
     }).subscribe(function (rspSequence) {
-      var locationResource = rspSequence.response.resourceSets[0];
-      var address = locationResource ? locationResource.resources[0].name : "No Address Found";
-      var entityType = locationResource ? locationResource.resources[0].entityType : "N/A";
-      var coordinates = locationResource ? locationResource.resources[0].point.coordinates : "N/A";
-      console.log("You are currently at Point: {0},{1} Address: {2}".format(coordinates[0], coordinates[1], address));
+      _rx2['default'].Observable.from(BingServices.fromResponeToLocationResources(rspSequence)).subscribe(function (location) {
+        console.log("You are currently at Point: {0},{1} Address: {2}".format(location.point.coordinates[0], location.point.coordinates[1], location.name));
+      });
     }, function (error) {
       console.log("There was an error: " + error);
     });
@@ -66,7 +64,8 @@ var subscription = whereAmIObs.subscribe(function (pos) {
   console.log('Completed');
 });
 
-},{"../lib/index":3,"extend":7,"rx":10}],2:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"../lib/index":3,"_process":6,"extend":7,"rx":10}],2:[function(require,module,exports){
 module.exports={
   "2084": { "EntityType": "Winery", "icon": "glass" },
   "3578": { "EntityType": "ATM", "icon": "atm" },
@@ -213,7 +212,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.whatsAroundMe = whatsAroundMe;
 exports.getEntityTypeDetails = getEntityTypeDetails;
-exports.fromRspToSpatialEntities = fromRspToSpatialEntities;
+exports.fromResponseToSpatialEntities = fromResponseToSpatialEntities;
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
@@ -322,7 +321,7 @@ function getEntityTypeDetails(entityTypeId) {
 
 ;
 
-function fromRspToSpatialEntities(bingRsp) {
+function fromResponseToSpatialEntities(bingRsp) {
     return bingRsp && bingRsp.response && bingRsp.response.d && bingRsp.response.d.results ? bingRsp.response.d.results : [];
 }
 
@@ -333,6 +332,7 @@ Object.defineProperty(exports, '__esModule', {
       value: true
 });
 exports.bingLocation = bingLocation;
+exports.fromResponeToLocationResources = fromResponeToLocationResources;
 
 function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : { 'default': obj };
@@ -368,7 +368,7 @@ var supportedInputs = {
 };
 
 function bingLocation(input, exits) {
-      var errors = (0, _index.validateInput)(input);
+      var errors = (0, _index.validateInput)(supportedInputs, input);
       if (errors.size > 0) return exits.error({ description: 'input validation failed', errorSet: errors });
 
       if (!validateRequest(input)) return exits.error({ description: 'request failed validation check' });
@@ -384,6 +384,10 @@ function bingLocation(input, exits) {
 var validateRequest = function validateRequest(input) {
       return input.location.split(',').length == 2;
 };
+
+function fromResponeToLocationResources(bingRsp) {
+      return bingRsp && bingRsp.response && bingRsp.response.resourceSets && bingRsp.response.resourceSets.length > 0 ? bingRsp.response.resourceSets[0].resources : [];
+}
 
 },{"./index":3,"extend":7,"rx":10,"rx-dom":9}],6:[function(require,module,exports){
 // shim for using process in browser

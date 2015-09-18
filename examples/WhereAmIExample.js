@@ -17,15 +17,14 @@ var myLocationProcessor = {
           console.log('Received a validation error:\n', e);
         }
       }).subscribe((rspSequence) => {
-                 let locationResource = rspSequence.response.resourceSets[0];
-                 let address = locationResource?locationResource.resources[0].name:"No Address Found";
-                 let entityType = locationResource?locationResource.resources[0].entityType:"N/A";
-                 let coordinates = locationResource?locationResource.resources[0].point.coordinates:"N/A";
-                 console.log("You are currently at Point: {0},{1} Address: {2}".format(coordinates[0], coordinates[1], address));
-              },
-              (error) => {
-                  console.log("There was an error: " + error);
-              }
+        Rx.Observable.from(BingServices.fromResponeToLocationResources(rspSequence))
+                     .subscribe((location) => {
+                         console.log("You are currently at Point: {0},{1} Address: {2}".format(location.point.coordinates[0], location.point.coordinates[1], location.name));
+                     });
+        },
+        (error) => {
+                    console.log("There was an error: " + error);
+        }
       );
   }
 }

@@ -14,7 +14,7 @@ var rsp = BingServices.whatsAroundMe({
     console.log('Received a validation error:\n', e);
   }
 }).subscribe((rspSequence) => {
-           Rx.Observable.from(BingServices.fromRspToSpatialEntities(rspSequence))
+           Rx.Observable.from(BingServices.fromResponseToSpatialEntities(rspSequence))
                         .subscribe((location) => {
                             let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
                             console.log(JSON.stringify(extend(true, {}, location, entityType)));
