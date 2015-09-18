@@ -46,8 +46,12 @@ All services in this package will return a Rx observable, which is available for
 ## API Reference
 * [BingServices](#SD)
   * [.whatsAroundMe](#BingServices.whatsAroundMe)
+  * [.whereAmI](#BingServices.whereAmI)
+
+* [BingServices Utility Functions](#SD)
   * [.fromResponseToSpatialEntities](#BingServices.fromResponseToSpatialEntities)
   * [.getEntityTypeDetails](#BingServices.getEntityTypeDetails)
+  * [.fromResponeToLocationResources](#BingServices.fromResponeToLocationResources)
 
 <a name="SD"></a>
 ### BingServices
@@ -57,7 +61,7 @@ All services are available within the BingServices module
 #### BingServices.whatsAroundMe(options, errorCallback) => <code>Observable</code>
 Bing Spatial Data Service: collects all entities around a specified geo location. This calls bing spatial data service as an observable, and uses Rx to subscribe to the response of nearby entities
 
-**Returns**: An observable sequence. The table below describes the response thats streamed back from the subscription. 
+**Returns**: An observable sequence. The table below describes the input parameters which this service supports.  
 
 #####Supported Input Parameters
 | Param | Type | Example | Required | Description | Default
@@ -79,3 +83,36 @@ Function to convert a whatsAroundMe response to a structured Data Contract array
 <a name="BingServices.getEntityTypeDetails"></a>
 #### BingServices.getEntityTypeDetails(entityTypeId)
 Function to translate an spatial data returned entitytypeId to a data structure that's more descriptive and useful. This provides a description and icon word for a particular entity type. The icon word can be used to customize your own pushpin icon image, when leveraging the [RxBingMaps](https://github.com/erikschlegel/RxBingMap) visualization component.  
+
+<a name="BingServices.whatsAroundMe"></a>
+#### BingServices.whereAmI(options, errorCallback) => <code>Observable</code>
+Bing Location Data Service: Use the following service to get the location information associated with either a) latitude and longitude coordinates b) A query string i.e. 'The Space Needle' or '1600 Pennsylvania Ave'. This calls bing location data service and transforms the stream to an observable, and uses Rx to subscribe to the returned response location details.
+
+**Returns**: An observable sequence. The table below describes the input parameters which this service supports.  
+#####Supported Input Parameters
+| Param | Type | Example | Required | Description | Default
+| --- | --- | --- | --- | --- | --- |
+| apiKey | <code>string</code> | 232edfdnfddf4450 | Yes | Your api access key to access bing data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx|None
+| location | <code>string</code> | 34.23245532,-40.47464 | Yes | The users latitude and longitude|None
+#####Usage
+```
+var rsp = BingServices.whereAmI({
+          apiKey: process.env.BING_API_KEY,
+          location: "{0},{1}".format(latitude, longitude)
+      } , {
+        // An unexpected error occurred.
+        error: function (e){
+          console.log('Received a validation error:\n', e);
+        }
+      })
+```
+<a name="BingServices.fromResponeToLocationResources"></a>
+#### BingServices.fromResponeToLocationResources(response)
+Function to convert a WhereAmI response to a structured Data Contract array. You can then use Rx.Observable.from to convert the response items to a structured data stream of location resources. To see the details of the data attributes for each location resource, check out the Bing API docs for the response of Location API https://msdn.microsoft.com/en-us/library/ff701725.aspx  
+#####Usage
+```
+Rx.Observable.from(BingServices.fromResponeToLocationResources(rspSequence))
+                     .subscribe((location) => {
+                         console.log("You are currently at Point: {0},{1} Address: {2}".format(location.point.coordinates[0], location.point.coordinates[1], location.name));
+                     });
+```
