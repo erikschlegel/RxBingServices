@@ -29,7 +29,7 @@ var rsp = BingServices.whatsAroundMe({
     console.log('Received a validation error:\n', e);
   }
 }).subscribe((rspSequence) => {
-           Rx.Observable.from(BingServices.fromRspToSpatialEntities(rspSequence))
+           Rx.Observable.from(BingServices.fromResponseToSpatialEntities(rspSequence))
                         .subscribe((location) => {
                             let entityType = BingServices.getEntityTypeDetails(location.EntityTypeID);
                             console.log(JSON.stringify(extend(true, {}, location, entityType)));
@@ -57,6 +57,7 @@ Bing Spatial Data Service: collects all entities around a specified geo location
 
 **Returns**: An observable sequence. The table below describes the response thats streamed back from the subscription. 
 
+#####Supported Input Parameters
 | Param | Type | Example | Required | Description | Default
 | --- | --- | --- | --- | --- | --- |
 | apiKey | <code>string</code> | 232edfdnfddf4450 | Yes | Your api access key to access bing spatial data services. This can be obtained at https://msdn.microsoft.com/en-us/library/ff428642.aspx|None
@@ -68,3 +69,6 @@ Bing Spatial Data Service: collects all entities around a specified geo location
 | orberByClause | <code>string</code> | IsWheelchairAccessible | No | The Odata order by clause for the bing spatial data query|None
 | top | <code>int</code> | 10 | No | Sets the max returned allowable results|20
 | radius | <code>int</code> | 1 | Yes | Spatial data filter radius(in kilometers)|None
+
+#### BingServices.fromResponseToSpatialEntities(response)
+Function to convert response to a structured Data Contract array. You can then use Rx.Observable.from to convert the response items to a structured data stream. The response data contract depends on the spatial data source you're requesting. You can even create your own spatial data source, and customize the geo-tagged schema. For more details on creating/publishing your own custom data source or the Microsoft supported public data sources check out https://msdn.microsoft.com/en-us/library/hh478189.aspx
