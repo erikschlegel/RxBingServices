@@ -78,4 +78,4 @@ Function to convert a whatsAroundMe response to a structured Data Contract array
 
 <a name="BingServices.getEntityTypeDetails"></a>
 #### BingServices.getEntityTypeDetails(entityTypeId)
-Function to translate an spatial data returned entitytypeId to a data structure that's more descriptive and useful. This provides a description and icon word for a particular entity type. The icon word can be used to customize your own pushpin icon image, when leveraging the Rx-BingMaps visualization component.  
+Function to translate an spatial data returned entitytypeId to a data structure that's more descriptive and useful. This provides a description and icon word for a particular entity type. The icon word can be used to customize your own pushpin icon image, when leveraging the [RxBingMaps](https://github.com/erikschlegel/RxBingMap) visualization component.  
