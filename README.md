@@ -46,6 +46,8 @@ All services in this package will return a Rx observable, which is available for
 ## API Reference
 * [BingServices](#SD)
   * [.whatsAroundMe](#BingServices.whatsAroundMe)
+  * [.fromResponseToSpatialEntities](#BingServices.fromResponseToSpatialEntities)
+  * [.getEntityTypeDetails](#BingServices.getEntityTypeDetails)
 
 <a name="SD"></a>
 ### BingServices
@@ -70,5 +72,10 @@ Bing Spatial Data Service: collects all entities around a specified geo location
 | top | <code>int</code> | 10 | No | Sets the max returned allowable results|20
 | radius | <code>int</code> | 1 | Yes | Spatial data filter radius(in kilometers)|None
 
+<a name="BingServices.fromResponseToSpatialEntities"></a>
 #### BingServices.fromResponseToSpatialEntities(response)
-Function to convert response to a structured Data Contract array. You can then use Rx.Observable.from to convert the response items to a structured data stream. The response data contract depends on the spatial data source you're requesting. You can even create your own spatial data source, and customize the geo-tagged schema. For more details on creating/publishing your own custom data source or the Microsoft supported public data sources check out https://msdn.microsoft.com/en-us/library/hh478189.aspx
+Function to convert a whatsAroundMe response to a structured Data Contract array. You can then use Rx.Observable.from to convert the response items to a structured data stream. The response data contract depends on the spatial data source you're requesting. You can even create your own spatial data source, and customize the geo-tagged schema. For more details on creating/publishing your own custom data source or the Microsoft supported public data sources check out https://msdn.microsoft.com/en-us/library/hh478189.aspx
+
+<a name="BingServices.getEntityTypeDetails"></a>
+#### BingServices.getEntityTypeDetails(entityTypeId)
+Function to translate an spatial data returned entitytypeId to a data structure that's more descriptive and useful. This provides a description and icon word for a particular entity type. The icon word can be used to customize your own pushpin icon image, when leveraging the Rx-BingMaps visualization component.  
