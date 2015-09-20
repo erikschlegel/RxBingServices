@@ -8,7 +8,7 @@ var whereAmIObs = Rx.DOM.geolocation.getCurrentPosition();
 
 var myLocationProcessor = {
   'bingLocationService' : (latitude, longitude) => {
-      var rsp = BingServices.bingLocation({
+      var rsp = BingServices.whereAmI({
           apiKey: process.env.BING_API_KEY,
           location: "{0},{1}".format(latitude, longitude)
       } , {
