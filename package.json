@@ -1,7 +1,7 @@
 {
   "name": "rx-bing-services",
   "description": "Reactive extensions for Bing location and mapping services",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": "erikschlegel/RxBingServices",
